@@ -65,7 +65,7 @@ export default async function HomePage() {
       <section>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold">🔥 টপ সেলিং প্রোডাক্ট</h2>
-          <Link href="/products?topSelling=true" className="text-brand-600 text-sm font-medium hover:underline">
+          <Link href="/products?topSelling=true" className="text-primary-600 text-sm font-medium hover:underline">
             সব দেখুন →
           </Link>
         </div>
@@ -80,7 +80,7 @@ export default async function HomePage() {
       <section>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold">সকল প্রোডাক্ট</h2>
-          <Link href="/products" className="text-brand-600 text-sm font-medium hover:underline">
+          <Link href="/products" className="text-primary-600 text-sm font-medium hover:underline">
             সব দেখুন →
           </Link>
         </div>
