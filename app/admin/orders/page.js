@@ -40,7 +40,7 @@ export default function AdminOrdersPage() {
             {orders.map((o) => (
               <tr key={o._id} className="border-b last:border-0">
                 <td className="p-3">
-                  <Link href={`/admin/orders/${o._id}`} className="text-brand-600 font-medium">{o.orderNumber}</Link>
+                  <Link href={`/admin/orders/${o._id}`} className="text-primary-600 font-medium">{o.orderNumber}</Link>
                 </td>
                 <td>{o.user?.name || o.guestInfo?.name || "গেস্ট"}</td>
                 <td>৳{o.grandTotal}</td>

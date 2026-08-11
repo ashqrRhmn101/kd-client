@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import toast from "react-hot-toast";
+import { ClipLoader } from "react-spinners";
+import { alertSuccess, alertError } from "@/lib/alert";
 import api from "@/lib/api";
 
 const STATUS_OPTIONS = ["pending", "confirmed", "processing", "shipped", "delivered", "cancelled"];
@@ -24,14 +25,14 @@ export default function AdminOrderDetailPage() {
     e.preventDefault();
     try {
       await api.patch(`/admin/orders/${id}/status`, statusForm);
-      toast.success("স্ট্যাটাস আপডেট হয়েছে");
+      alertSuccess("স্ট্যাটাস আপডেট হয়েছে");
       load();
     } catch (err) {
-      toast.error(err.response?.data?.message || "সমস্যা হয়েছে");
+      alertError(err.response?.data?.message || "সমস্যা হয়েছে");
     }
   };
 
-  if (!order) return <p className="text-gray-400">লোড হচ্ছে...</p>;
+  if (!order) return <div className="py-16 text-center"><ClipLoader color="#16a34a" /></div>;
 
   const customer = order.user || order.guestInfo || {};
 
