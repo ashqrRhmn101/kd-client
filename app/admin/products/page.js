@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { alertSuccess, alertError, confirmDialog } from "@/lib/alert";
 import api from "@/lib/api";
 
 const EMPTY_FORM = {
@@ -48,15 +48,15 @@ export default function AdminProductsPage() {
     try {
       if (editingId) {
         await api.put(`/admin/products/${editingId}`, payload);
-        toast.success("প্রোডাক্ট আপডেট হয়েছে");
+        alertSuccess("প্রোডাক্ট আপডেট হয়েছে");
       } else {
         await api.post("/admin/products", payload);
-        toast.success("প্রোডাক্ট যোগ হয়েছে");
+        alertSuccess("প্রোডাক্ট যোগ হয়েছে");
       }
       resetForm();
       loadProducts();
     } catch (err) {
-      toast.error(err.response?.data?.message || "সমস্যা হয়েছে");
+      alertError(err.response?.data?.message || "সমস্যা হয়েছে");
     }
   };
 
@@ -77,9 +77,10 @@ export default function AdminProductsPage() {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm("এই প্রোডাক্টটি মুছে ফেলতে চান?")) return;
+    const ok = await confirmDialog({ title: "প্রোডাক্ট ডিলিট করবেন?", text: "এই প্রোডাক্টটি আর দেখা যাবে না।" });
+    if (!ok) return;
     await api.delete(`/admin/products/${id}`);
-    toast.success("মুছে ফেলা হয়েছে");
+    alertSuccess("মুছে ফেলা হয়েছে");
     loadProducts();
   };
 
