@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import toast from "react-hot-toast";
+import { ShoppingCart } from "lucide-react";
+import { alertSuccess } from "@/lib/alert";
 import { useCart } from "@/context/CartContext";
 
 export default function ProductCard({ product }) {
@@ -36,12 +37,12 @@ export default function ProductCard({ product }) {
       </Link>
       <div className="p-3">
         <Link href={`/products/${product.slug}`}>
-          <h3 className="text-sm font-medium text-ink-900 line-clamp-2 min-h-[2.5rem] hover:text-brand-600">
+          <h3 className="text-sm font-medium text-ink-900 line-clamp-2 min-h-[2.5rem] hover:text-primary-600">
             {product.name}
           </h3>
         </Link>
         <div className="flex items-center gap-2 mt-1">
-          <span className="text-brand-600 font-bold">৳{finalPrice}</span>
+          <span className="text-primary-600 font-bold">৳{finalPrice}</span>
           {hasDiscount && <span className="text-gray-400 text-xs line-through">৳{product.price}</span>}
         </div>
         {product.ratingCount > 0 && (
@@ -55,11 +56,11 @@ export default function ProductCard({ product }) {
           disabled={product.stock === 0}
           onClick={() => {
             addToCart(product, 1);
-            toast.success("কার্টে যোগ হয়েছে");
+            alertSuccess("কার্টে যোগ হয়েছে");
           }}
-          className="w-full mt-2 text-sm btn-primary disabled:opacity-40 disabled:cursor-not-allowed"
+          className="w-full mt-2 text-sm btn-primary flex items-center justify-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          কার্টে যোগ করুন
+          <ShoppingCart className="w-3.5 h-3.5" /> কার্টে যোগ করুন
         </button>
       </div>
     </div>
