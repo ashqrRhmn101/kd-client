@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { ClipLoader } from "react-spinners";
 import api from "@/lib/api";
 import ProductCard from "@/components/ProductCard";
 
@@ -36,7 +37,7 @@ export default function ProductsPage() {
       </h1>
 
       {loading ? (
-        <p className="text-gray-400">লোড হচ্ছে...</p>
+        <div className="py-16 text-center"><ClipLoader color="#16a34a" /></div>
       ) : products.length === 0 ? (
         <p className="text-gray-400">কোনো প্রোডাক্ট পাওয়া যায়নি।</p>
       ) : (
@@ -54,7 +55,7 @@ export default function ProductsPage() {
                   key={p}
                   onClick={() => setPage(p)}
                   className={`w-9 h-9 rounded-lg text-sm font-medium ${
-                    p === page ? "bg-brand-500 text-white" : "bg-white border border-gray-300"
+                    p === page ? "bg-primary-500 text-white" : "bg-white border border-gray-300"
                   }`}
                 >
                   {p}

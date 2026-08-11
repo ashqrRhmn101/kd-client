@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import toast from "react-hot-toast";
+import { ClipLoader } from "react-spinners";
+import { alertSuccess, alertError } from "@/lib/alert";
 import api from "@/lib/api";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
@@ -43,7 +44,7 @@ export default function ProductDetailPage() {
     }
   }, [product]);
 
-  if (!product) return <div className="container-page py-10 text-gray-400">লোড হচ্ছে...</div>;
+  if (!product) return <div className="container-page py-16 text-center"><ClipLoader color="#16a34a" /></div>;
 
   const finalPrice = product.discountPrice && product.discountPrice < product.price ? product.discountPrice : product.price;
 
@@ -54,13 +55,13 @@ export default function ProductDetailPage() {
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
-    if (!user) return toast.error("রিভিউ দিতে লগইন করুন");
+    if (!user) return alertError("রিভিউ দিতে লগইন করুন");
     try {
       await api.post(`/products/${product._id}/reviews`, reviewForm);
-      toast.success("রিভিউ জমা হয়েছে, অনুমোদনের অপেক্ষায় আছে");
+      alertSuccess("রিভিউ জমা হয়েছে, অনুমোদনের অপেক্ষায় আছে");
       setReviewForm({ rating: 5, comment: "" });
     } catch (err) {
-      toast.error(err.response?.data?.message || "সমস্যা হয়েছে");
+      alertError(err.response?.data?.message || "সমস্যা হয়েছে");
     }
   };
 
@@ -78,7 +79,7 @@ export default function ProductDetailPage() {
                 key={i}
                 onClick={() => setActiveImage(i)}
                 className={`relative w-16 h-16 rounded-lg overflow-hidden border-2 ${
-                  i === activeImage ? "border-brand-500" : "border-transparent"
+                  i === activeImage ? "border-primary-500" : "border-transparent"
                 }`}
               >
                 <Image src={img} alt="" fill className="object-cover" />
@@ -91,7 +92,7 @@ export default function ProductDetailPage() {
         <div>
           <h1 className="text-xl font-bold">{product.name}</h1>
           <div className="flex items-center gap-3 mt-2">
-            <span className="text-2xl font-bold text-brand-600">৳{finalPrice}</span>
+            <span className="text-2xl font-bold text-primary-600">৳{finalPrice}</span>
             {finalPrice < product.price && <span className="text-gray-400 line-through">৳{product.price}</span>}
           </div>
           <p className="text-sm text-gray-500 mt-1">{product.stock > 0 ? `স্টকে আছে (${product.stock})` : "স্টকে নেই"}</p>
@@ -105,7 +106,7 @@ export default function ProductDetailPage() {
                     key={opt}
                     onClick={() => setSelectedVariant((prev) => ({ ...prev, [variant.name]: opt }))}
                     className={`px-3 py-1.5 rounded-lg border text-sm ${
-                      selectedVariant[variant.name] === opt ? "border-brand-500 bg-brand-50 text-brand-700" : "border-gray-300"
+                      selectedVariant[variant.name] === opt ? "border-primary-500 bg-primary-50 text-primary-700" : "border-gray-300"
                     }`}
                   >
                     {opt}
@@ -129,9 +130,9 @@ export default function ProductDetailPage() {
               disabled={product.stock === 0}
               onClick={() => {
                 addToCart(product, quantity, selectedVariant);
-                toast.success("কার্টে যোগ হয়েছে");
+                alertSuccess("কার্টে যোগ হয়েছে");
               }}
-              className="btn-secondary disabled:opacity-40"
+              className="btn-outline disabled:opacity-40"
             >
               🛒 কার্টে যোগ করুন
             </button>
