@@ -38,7 +38,7 @@ export default function AdminDashboard() {
       <div className="card p-4">
         <div className="flex justify-between items-center mb-3">
           <h2 className="font-semibold">সাম্প্রতিক অর্ডার</h2>
-          <Link href="/admin/orders" className="text-brand-600 text-sm">সব দেখুন →</Link>
+          <Link href="/admin/orders" className="text-primary-600 text-sm">সব দেখুন →</Link>
         </div>
         <table className="w-full text-sm">
           <thead>
@@ -52,7 +52,7 @@ export default function AdminDashboard() {
             {recentOrders.map((o) => (
               <tr key={o._id} className="border-b last:border-0">
                 <td className="py-2">
-                  <Link href={`/admin/orders/${o._id}`} className="text-brand-600">{o.orderNumber}</Link>
+                  <Link href={`/admin/orders/${o._id}`} className="text-primary-600">{o.orderNumber}</Link>
                 </td>
                 <td>৳{o.grandTotal}</td>
                 <td className="capitalize">{o.status}</td>
