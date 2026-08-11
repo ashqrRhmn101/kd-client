@@ -59,7 +59,7 @@ export default function TrackOrderPage() {
         <div className="card p-4">
           <div className="flex justify-between mb-3">
             <span className="font-semibold">অর্ডার #{order.orderNumber}</span>
-            <span className="text-brand-600 font-bold">৳{order.grandTotal}</span>
+            <span className="text-primary-600 font-bold">৳{order.grandTotal}</span>
           </div>
 
           {order.status === "cancelled" ? (
@@ -71,7 +71,7 @@ export default function TrackOrderPage() {
                 const active = i <= currentIdx;
                 return (
                   <div key={s} className="flex-1 text-center">
-                    <div className={`w-6 h-6 mx-auto rounded-full text-xs flex items-center justify-center ${active ? "bg-brand-500 text-white" : "bg-gray-200"}`}>
+                    <div className={`w-6 h-6 mx-auto rounded-full text-xs flex items-center justify-center ${active ? "bg-primary-500 text-white" : "bg-gray-200"}`}>
                       {i + 1}
                     </div>
                     <p className="text-[10px] mt-1">{STATUS_LABELS[s]}</p>
