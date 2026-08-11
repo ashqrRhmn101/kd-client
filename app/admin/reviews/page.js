@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { alertSuccess, alertError } from "@/lib/alert";
 import api from "@/lib/api";
 
 export default function AdminReviewsPage() {
@@ -13,12 +13,12 @@ export default function AdminReviewsPage() {
 
   const approve = async (id) => {
     await api.patch(`/admin/reviews/${id}/approve`);
-    toast.success("রিভিউ অনুমোদন হয়েছে");
+    alertSuccess("রিভিউ অনুমোদন হয়েছে");
     load();
   };
   const reject = async (id) => {
     await api.delete(`/admin/reviews/${id}`);
-    toast.success("রিভিউ বাতিল হয়েছে");
+    alertSuccess("রিভিউ বাতিল হয়েছে");
     load();
   };
 
