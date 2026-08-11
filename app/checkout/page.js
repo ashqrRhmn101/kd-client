@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import { ClipLoader } from "react-spinners";
+import { alertSuccess, alertError } from "@/lib/alert";
 import api from "@/lib/api";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
@@ -29,7 +30,7 @@ export default function CheckoutPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (items.length === 0) return toast.error("কার্ট খালি");
+    if (items.length === 0) return alertError("কার্ট খালি");
     setPlacing(true);
     try {
       const { data } = await api.post("/orders", {
@@ -43,10 +44,10 @@ export default function CheckoutPage() {
         guestInfo: user ? undefined : { name: form.name, phone: form.phone, email: form.email },
       });
       clearCart();
-      toast.success("অর্ডার সফল হয়েছে!");
+      alertSuccess("অর্ডার সফল হয়েছে!");
       router.push(`/orders/track?orderNumber=${data.order.orderNumber}`);
     } catch (err) {
-      toast.error(err.response?.data?.message || "অর্ডার দিতে সমস্যা হয়েছে");
+      alertError(err.response?.data?.message || "অর্ডার দিতে সমস্যা হয়েছে");
     } finally {
       setPlacing(false);
     }
@@ -67,7 +68,7 @@ export default function CheckoutPage() {
               <input required name="name" placeholder="আপনার নাম" value={form.name} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-3 py-2" />
               <input required name="phone" placeholder="ফোন নাম্বার" value={form.phone} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-3 py-2" />
               <input name="email" type="email" placeholder="ইমেইল (ঐচ্ছিক)" value={form.email} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-3 py-2" />
-              <p className="text-xs text-gray-400">লগইন ছাড়াই অর্ডার করা যাবে — অথবা <a href="/login" className="text-brand-600 underline">লগইন করুন</a></p>
+              <p className="text-xs text-gray-400">লগইন ছাড়াই অর্ডার করা যাবে — অথবা <a href="/login" className="text-primary-600 underline">লগইন করুন</a></p>
             </div>
           )}
 
@@ -101,8 +102,8 @@ export default function CheckoutPage() {
           <div className="flex justify-between text-sm"><span>সাবটোটাল</span><span>৳{total}</span></div>
           <div className="flex justify-between text-sm"><span>ডেলিভারি চার্জ</span><span>৳{deliveryCharge}</span></div>
           <div className="flex justify-between font-bold border-t pt-2 mt-2"><span>সর্বমোট</span><span>৳{grandTotal}</span></div>
-          <button disabled={placing} type="submit" className="btn-primary w-full mt-3 disabled:opacity-50">
-            {placing ? "অর্ডার হচ্ছে..." : "অর্ডার কনফার্ম করুন"}
+          <button disabled={placing} type="submit" className="btn-primary w-full mt-3 flex items-center justify-center gap-2 disabled:opacity-60">
+            {placing ? <ClipLoader size={18} color="#fff" /> : "অর্ডার কনফার্ম করুন"}
           </button>
         </div>
       </form>
