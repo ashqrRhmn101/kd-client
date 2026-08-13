@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { User, Package, LogOut, ChevronDown } from "lucide-react";
+import { User, Package, LogOut, ChevronDown, LayoutDashboard } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
 export default function AvatarMenu() {
@@ -47,6 +47,11 @@ export default function AvatarMenu() {
             <p className="text-sm font-semibold truncate">{user.name}</p>
             <p className="text-xs text-gray-400 truncate">{user.email}</p>
           </div>
+          {user.role === "admin" && (
+            <Link href="/admin" onClick={() => setOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-primary-700 font-medium bg-primary-50 hover:bg-primary-100">
+              <LayoutDashboard className="w-4 h-4" /> অ্যাডমিন ড্যাশবোর্ড
+            </Link>
+          )}
           <Link href="/profile" onClick={() => setOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-50">
             <User className="w-4 h-4" /> প্রোফাইল
           </Link>
