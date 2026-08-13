@@ -1,14 +1,21 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { ShoppingCart } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ShoppingCart, Zap } from "lucide-react";
 import { alertSuccess } from "@/lib/alert";
 import { useCart } from "@/context/CartContext";
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
+  const router = useRouter();
   const finalPrice = product.discountPrice && product.discountPrice < product.price ? product.discountPrice : product.price;
   const hasDiscount = product.discountPrice && product.discountPrice < product.price;
+
+  const handleBuyNow = () => {
+    addToCart(product, 1);
+    router.push("/checkout");
+  };
 
   return (
     <div className="card overflow-hidden group hover:shadow-md transition-shadow">
@@ -52,16 +59,29 @@ export default function ProductCard({ product }) {
             <span className="text-gray-400 ml-1">({product.ratingCount})</span>
           </div>
         )}
-        <button
-          disabled={product.stock === 0}
-          onClick={() => {
-            addToCart(product, 1);
-            alertSuccess("কার্টে যোগ হয়েছে");
-          }}
-          className="w-full mt-2 text-sm btn-primary flex items-center justify-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
-        >
-          <ShoppingCart className="w-3.5 h-3.5" /> কার্টে যোগ করুন
-        </button>
+        <div className="grid grid-cols-2 gap-1.5 mt-2.5">
+          <button
+            disabled={product.stock === 0}
+            onClick={() => {
+              addToCart(product, 1);
+              alertSuccess("কার্টে যোগ হয়েছে");
+            }}
+            title="কার্টে যোগ করুন"
+            className="flex items-center justify-center gap-1 text-[11px] sm:text-xs font-semibold btn-outline !px-1.5 !py-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            <ShoppingCart className="w-3.5 h-3.5 flex-shrink-0" />
+            <span className="truncate">কার্টে যোগ</span>
+          </button>
+          <button
+            disabled={product.stock === 0}
+            onClick={handleBuyNow}
+            title="এখনই কিনুন"
+            className="flex items-center justify-center gap-1 text-[11px] sm:text-xs font-semibold btn-primary !px-1.5 !py-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            <Zap className="w-3.5 h-3.5 flex-shrink-0" />
+            <span className="truncate">এখনই কিনুন</span>
+          </button>
+        </div>
       </div>
     </div>
   );
