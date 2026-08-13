@@ -1,6 +1,7 @@
 import Link from "next/link";
 import BannerCarousel from "@/components/BannerCarousel";
 import ProductCard from "@/components/ProductCard";
+import TestimonialsMarquee from "@/components/TestimonialsMarquee";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
@@ -105,6 +106,8 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+
+      <TestimonialsMarquee />
     </div>
   );
 }
