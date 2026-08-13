@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { Search, ShoppingCart, Truck, Phone } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { ShoppingCart, Truck, Phone } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import AvatarMenu from "@/components/AvatarMenu";
+import SearchAutocomplete from "@/components/SearchAutocomplete";
 
 const NAV_LINKS = [
   { href: "/", label: "হোম" },
@@ -15,36 +15,21 @@ const NAV_LINKS = [
 ];
 
 export default function Header() {
-  const [query, setQuery] = useState("");
-  const router = useRouter();
   const pathname = usePathname();
   const { count } = useCart();
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (query.trim()) router.push(`/products?search=${encodeURIComponent(query)}`);
-  };
 
   return (
     <header className="sticky top-0 z-40 shadow-sm">
       {/* Top bar: logo, search, cart, account */}
       <div className="bg-white border-b border-gray-100">
-        <div className="container-page flex items-center gap-4 py-3">
-          <Link href="/" className="text-xl font-extrabold whitespace-nowrap">
+        <div className="container-page flex items-center gap-4 py-2.5">
+          <Link href="/" className="text-lg font-extrabold whitespace-nowrap">
             <span className="text-primary-600">Khalid&apos;s</span> <span className="text-secondary-500">Dreams</span>
           </Link>
 
-          <form onSubmit={handleSearch} className="flex-1 hidden sm:flex">
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="প্রোডাক্ট খুঁজুন..."
-              className="w-full border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400"
-            />
-            <button type="submit" className="bg-primary-500 hover:bg-primary-600 text-white px-4 rounded-r-lg">
-              <Search className="w-4 h-4" />
-            </button>
-          </form>
+          <div className="hidden sm:block max-w-xs w-full">
+            <SearchAutocomplete />
+          </div>
 
           <nav className="flex items-center gap-4 text-sm font-medium ml-auto">
             <Link href="/cart" className="relative hover:text-primary-600">
@@ -59,17 +44,9 @@ export default function Header() {
           </nav>
         </div>
 
-        <form onSubmit={handleSearch} className="sm:hidden container-page pb-3 flex">
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="প্রোডাক্ট খুঁজুন..."
-            className="w-full border border-gray-300 rounded-l-lg px-3 py-2 text-sm"
-          />
-          <button type="submit" className="bg-primary-500 text-white px-3 rounded-r-lg text-sm">
-            <Search className="w-4 h-4" />
-          </button>
-        </form>
+        <div className="sm:hidden container-page pb-2.5">
+          <SearchAutocomplete compact />
+        </div>
       </div>
 
       {/* Mobile nav strip — horizontally scrollable */}
