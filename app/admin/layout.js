@@ -3,12 +3,14 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { ClipLoader } from "react-spinners";
-import { LayoutDashboard, Package, Receipt, Star, LogOut } from "lucide-react";
+import { LayoutDashboard, Package, Receipt, Star, LogOut, Tag } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import NotificationBell from "@/components/NotificationBell";
 
 const NAV = [
   { href: "/admin", label: "ড্যাশবোর্ড", icon: LayoutDashboard },
   { href: "/admin/products", label: "প্রোডাক্ট", icon: Package },
+  { href: "/admin/categories", label: "ক্যাটাগরি", icon: Tag },
   { href: "/admin/orders", label: "অর্ডার", icon: Receipt },
   { href: "/admin/reviews", label: "রিভিউ", icon: Star },
 ];
@@ -63,7 +65,18 @@ export default function AdminLayout({ children }) {
         </button>
       </aside>
 
-      {/* Mobile top nav */}
+      <div className="flex-1 flex flex-col">
+        <header className="bg-white border-b border-gray-100 px-4 md:px-8 py-3 flex justify-between items-center">
+          <Link href="/" target="_blank" className="text-xs text-gray-400 hover:text-primary-600">
+            ← স্টোরফ্রন্টে ফিরে যান
+          </Link>
+          <NotificationBell />
+        </header>
+
+        <main className="flex-1 p-4 md:p-8 overflow-x-auto pb-20 md:pb-8">{children}</main>
+      </div>
+
+      {/* Mobile bottom nav */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-ink-900 text-white flex justify-around py-2 z-40">
         {NAV.map((item) => {
           const Icon = item.icon;
@@ -75,8 +88,6 @@ export default function AdminLayout({ children }) {
           );
         })}
       </div>
-
-      <main className="flex-1 p-4 md:p-8 overflow-x-auto pb-20 md:pb-8">{children}</main>
     </div>
   );
 }
