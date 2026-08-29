@@ -6,18 +6,21 @@ import { alertSuccess, alertError } from "@/lib/alert";
 import { useAuth } from "@/context/AuthContext";
 import { useLoadingBar } from "@/context/LoadingBarContext";
 
+const SCRIPT_ID = "google-identity-services-script";
+
 // Loads Google's Identity Services script once and renders the official
 // "Sign in with Google" button. Requires NEXT_PUBLIC_GOOGLE_CLIENT_ID in .env.local
 // (see README.md → "Google Sign-In সেটআপ" section for how to get one, free).
 export default function GoogleSignInButton() {
   const buttonRef = useRef(null);
+  const initializedRef = useRef(false); // guards against React StrictMode's double-effect in dev
   const router = useRouter();
   const { setUser } = useAuth();
   const { start } = useLoadingBar();
 
   useEffect(() => {
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-    if (!clientId) return; // silently skip rendering if not configured yet
+    if (!clientId || initializedRef.current) return;
 
     const handleCredential = async (response) => {
       try {
@@ -32,8 +35,9 @@ export default function GoogleSignInButton() {
     };
 
     const initializeAndRender = () => {
-      if (!window.google || !buttonRef.current) return;
-      window.google.accounts.id.initialize({ client_id: clientId, callback: handleCredential });
+      if (!window.google || !buttonRef.current || initializedRef.current) return;
+      initializedRef.current = true;
+      window.google.accounts.id.initialize({ client_id: clientId, callback: handleCredential, cancel_on_tap_outside: true });
       window.google.accounts.id.renderButton(buttonRef.current, {
         theme: "outline",
         size: "large",
@@ -42,16 +46,28 @@ export default function GoogleSignInButton() {
       });
     };
 
-    if (window.google) {
+    if (window.google?.accounts?.id) {
       initializeAndRender();
-    } else {
-      const script = document.createElement("script");
-      script.src = "https://accounts.google.com/gsi/client";
-      script.async = true;
-      script.defer = true;
-      script.onload = initializeAndRender;
-      document.body.appendChild(script);
+      return;
     }
+
+    // Reuse an existing script tag if one is already loading/loaded (e.g. from
+    // a previous mount of this component elsewhere in the app) instead of
+    // injecting duplicates — duplicate script tags are what usually trigger
+    // Google's "initialize() called multiple times" warning.
+    const existingScript = document.getElementById(SCRIPT_ID);
+    if (existingScript) {
+      existingScript.addEventListener("load", initializeAndRender, { once: true });
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.id = SCRIPT_ID;
+    script.src = "https://accounts.google.com/gsi/client";
+    script.async = true;
+    script.defer = true;
+    script.onload = initializeAndRender;
+    document.body.appendChild(script);
   }, []);
 
   const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;

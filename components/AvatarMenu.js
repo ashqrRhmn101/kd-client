@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import SafeImage from "@/components/SafeImage";
 import { User, Package, LogOut, ChevronDown, LayoutDashboard } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
@@ -32,7 +32,7 @@ export default function AvatarMenu() {
     <div className="relative" ref={ref}>
       <button onClick={() => setOpen((o) => !o)} className="flex items-center gap-1.5 group">
         {user.avatarUrl ? (
-          <Image src={user.avatarUrl} alt={user.name} width={32} height={32} className="rounded-full ring-2 ring-primary-100" />
+          <SafeImage src={user.avatarUrl} alt={user.name} width={32} height={32} className="rounded-full ring-2 ring-primary-100" fallbackClassName="rounded-full ring-2 ring-primary-100" />
         ) : (
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 text-white flex items-center justify-center text-sm font-bold ring-2 ring-primary-100">
             {initials}

@@ -18,7 +18,7 @@ function TestimonialCard({ t }) {
     <div className="w-72 flex-shrink-0 card p-4 mx-2">
       <div className="flex items-center gap-3 mb-2">
         <div className="relative w-11 h-11 rounded-full overflow-hidden bg-primary-50 flex-shrink-0">
-          <Image src={`https://api.dicebear.com/7.x/notionists/svg?seed=${t.seed}`} alt={t.name} fill className="object-cover" />
+          <Image src={`https://api.dicebear.com/7.x/notionists/png?seed=${t.seed}`} alt={t.name} fill className="object-cover" sizes="44px" />
         </div>
         <div>
           <p className="text-sm font-semibold">{t.name}</p>

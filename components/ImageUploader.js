@@ -1,10 +1,10 @@
 "use client";
 import { useRef, useState } from "react";
-import Image from "next/image";
 import { ClipLoader } from "react-spinners";
 import { Upload, X } from "lucide-react";
 import api from "@/lib/api";
 import { alertError } from "@/lib/alert";
+import SafeImage from "@/components/SafeImage";
 
 /**
  * Drag/click image uploader. Uploads directly to Cloudinary via our backend
@@ -56,7 +56,7 @@ export default function ImageUploader({ folder = "products", value, onChange, va
         {isMultiple &&
           values.map((url, i) => (
             <div key={i} className="relative w-20 h-20 rounded-lg overflow-hidden border border-gray-200">
-              <Image src={url} alt="" fill className="object-cover" />
+              <SafeImage src={url} alt="" fill className="object-cover" sizes="80px" />
               <button
                 type="button"
                 onClick={() => removeAt(i)}
@@ -69,7 +69,7 @@ export default function ImageUploader({ folder = "products", value, onChange, va
 
         {!isMultiple && value && (
           <div className="relative w-20 h-20 rounded-lg overflow-hidden border border-gray-200">
-            <Image src={value} alt="" fill className="object-cover" />
+            <SafeImage src={value} alt="" fill className="object-cover" sizes="80px" />
             <button
               type="button"
               onClick={() => onChange("")}

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import SafeImage from "@/components/SafeImage";
 import { Search, X } from "lucide-react";
 import { ClipLoader } from "react-spinners";
 import api from "@/lib/api";
@@ -113,7 +113,7 @@ export default function SearchAutocomplete({ compact = false }) {
                 className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 text-left"
               >
                 <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
-                  {p.images?.[0] && <Image src={p.images[0]} alt={p.name} fill className="object-cover" />}
+                  {p.images?.[0] && <SafeImage src={p.images[0]} alt={p.name} fill className="object-cover" sizes="40px" />}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm truncate">{p.name}</p>

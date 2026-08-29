@@ -1,11 +1,11 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ShoppingCart, Zap } from "lucide-react";
 import { alertSuccess } from "@/lib/alert";
 import { useCart } from "@/context/CartContext";
 import { useLoadingBar } from "@/context/LoadingBarContext";
+import SafeImage from "@/components/SafeImage";
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
@@ -25,7 +25,7 @@ export default function ProductCard({ product }) {
       <Link href={`/products/${product.slug}`}>
         <div className="relative aspect-square bg-gray-50">
           {product.images?.[0] && (
-            <Image
+            <SafeImage
               src={product.images[0]}
               alt={product.name}
               fill
