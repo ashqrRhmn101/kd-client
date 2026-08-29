@@ -3,10 +3,14 @@ import BannerCarousel from "@/components/BannerCarousel";
 import ProductCard from "@/components/ProductCard";
 import TestimonialsMarquee from "@/components/TestimonialsMarquee";
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const API = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:5000/api";
 
 async function getData() {
   try {
+    // AbortSignal.timeout fails fast (5s) instead of letting the page hang
+    // for many seconds when the backend is down/unreachable — a slow or
+    // refused connection was a real cause of the "frozen for a while" feeling.
+    const opts = { next: { revalidate: 30 }, signal: AbortSignal.timeout(5000) };
     const [categoriesRes, topSellingRes, comboRes, allProductsRes] = await Promise.all([
       // `next: { revalidate: 30 }` caches this on the server for 30 seconds —
       // repeat visits to the homepage are served instantly from cache instead
@@ -14,10 +18,10 @@ async function getData() {
       // the "several seconds before anything shows" delay). New products
       // still appear within 30s of being added — a good trade-off for a
       // homepage that doesn't need to be second-by-second live.
-      fetch(`${API}/categories`, { next: { revalidate: 30 } }),
-      fetch(`${API}/products?topSelling=true&limit=6`, { next: { revalidate: 30 } }),
-      fetch(`${API}/products?combo=true&limit=6`, { next: { revalidate: 30 } }),
-      fetch(`${API}/products?limit=12`, { next: { revalidate: 30 } }),
+      fetch(`${API}/categories`, opts),
+      fetch(`${API}/products?topSelling=true&limit=6`, opts),
+      fetch(`${API}/products?combo=true&limit=6`, opts),
+      fetch(`${API}/products?limit=12`, opts),
     ]);
     const [categories, topSelling, combos, allProducts] = await Promise.all([
       categoriesRes.json(),
@@ -31,8 +35,10 @@ async function getData() {
       combos: combos.products || [],
       allProducts: allProducts.products || [],
     };
-  } catch {
-    // Backend not running yet during local dev preview
+  } catch (err) {
+    // Backend not running/reachable — fail fast (see AbortSignal.timeout
+    // above) and show an empty homepage instead of hanging for a long time.
+    console.warn("⚠️ হোমপেজের ডেটা fetch ব্যর্থ হয়েছে — backend চালু আছে কিনা, ও NEXT_PUBLIC_API_URL ঠিক আছে কিনা যাচাই করুন:", err.message);
     return { categories: [], topSelling: [], combos: [], allProducts: [] };
   }
 }

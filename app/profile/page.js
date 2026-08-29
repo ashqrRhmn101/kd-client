@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
+import SafeImage from "@/components/SafeImage";
 import { ClipLoader } from "react-spinners";
 import { Mail, Phone, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
@@ -24,7 +24,7 @@ export default function ProfilePage() {
     <div className="container-page py-10 max-w-md">
       <div className="card p-6 text-center">
         {user.avatarUrl ? (
-          <Image src={user.avatarUrl} alt={user.name} width={72} height={72} className="rounded-full mx-auto ring-4 ring-primary-100" />
+          <SafeImage src={user.avatarUrl} alt={user.name} width={72} height={72} className="rounded-full mx-auto ring-4 ring-primary-100" fallbackClassName="rounded-full mx-auto ring-4 ring-primary-100" />
         ) : (
           <div className="w-[72px] h-[72px] rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 text-white flex items-center justify-center text-2xl font-bold mx-auto ring-4 ring-primary-100">
             {initials}

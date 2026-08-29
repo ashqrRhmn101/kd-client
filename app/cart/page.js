@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { useCart } from "@/context/CartContext";
+import SafeImage from "@/components/SafeImage";
 
 export default function CartPage() {
   const { items, updateQuantity, removeFromCart, total } = useCart();
@@ -24,7 +24,7 @@ export default function CartPage() {
           {items.map((item) => (
             <div key={item.key} className="card p-3 flex gap-3">
               <div className="relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-50">
-                {item.image && <Image src={item.image} alt={item.name} fill className="object-cover" />}
+                {item.image && <SafeImage src={item.image} alt={item.name} fill className="object-cover" sizes="80px" />}
               </div>
               <div className="flex-1">
                 <h3 className="text-sm font-medium">{item.name}</h3>

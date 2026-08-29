@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import Image from "next/image";
 import { ClipLoader } from "react-spinners";
 import { alertSuccess, alertError } from "@/lib/alert";
 import api from "@/lib/api";
@@ -9,6 +8,7 @@ import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import { useLoadingBar } from "@/context/LoadingBarContext";
 import ProductCard from "@/components/ProductCard";
+import SafeImage from "@/components/SafeImage";
 
 const STORE_WHATSAPP = "8801XXXXXXXXX"; // TODO: replace with real WhatsApp business number
 const STORE_PHONE = "+8801XXXXXXXXX"; // TODO: replace with real phone number
@@ -33,7 +33,9 @@ export default function ProductDetailPage() {
       setProduct(data.product);
       setRelated(data.related);
     });
-    api.get(`/products/${slug}/reviews`).catch(() => {});
+    // NOTE: reviews are fetched separately below using product._id once the
+    // product loads (the reviews API needs the real Mongo ID, not the slug —
+    // calling it with the slug here was a bug that caused a 404 every time).
   };
 
   useEffect(() => {
@@ -74,7 +76,13 @@ export default function ProductDetailPage() {
         {/* Images */}
         <div>
           <div className="relative aspect-square bg-gray-50 rounded-xl overflow-hidden">
-            <Image src={product.images[activeImage]} alt={product.name} fill className="object-cover" />
+            <SafeImage
+              src={product.images[activeImage]}
+              alt={product.name}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 500px"
+            />
           </div>
           <div className="flex gap-2 mt-3">
             {product.images.map((img, i) => (
@@ -85,7 +93,7 @@ export default function ProductDetailPage() {
                   i === activeImage ? "border-primary-500" : "border-transparent"
                 }`}
               >
-                <Image src={img} alt="" fill className="object-cover" />
+                <SafeImage src={img} alt="" fill className="object-cover" sizes="64px" />
               </button>
             ))}
           </div>
