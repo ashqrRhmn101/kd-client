@@ -7,6 +7,7 @@ import { Mail, Lock } from "lucide-react";
 import api from "@/lib/api";
 import { alertSuccess, alertError } from "@/lib/alert";
 import { useAuth } from "@/context/AuthContext";
+import { useLoadingBar } from "@/context/LoadingBarContext";
 import GoogleSignInButton from "@/components/GoogleSignInButton";
 
 export default function LoginPage() {
@@ -14,6 +15,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { setUser } = useAuth();
+  const { start } = useLoadingBar();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +24,7 @@ export default function LoginPage() {
       const { data } = await api.post("/auth/login", form);
       setUser(data.user);
       alertSuccess("লগইন সফল হয়েছে");
+      start();
       router.push("/");
     } catch (err) {
       alertError(err.response?.data?.message || "লগইন ব্যর্থ হয়েছে");

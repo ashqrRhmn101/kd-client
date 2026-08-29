@@ -7,6 +7,7 @@ import { alertSuccess, alertError } from "@/lib/alert";
 import api from "@/lib/api";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+import { useLoadingBar } from "@/context/LoadingBarContext";
 import ProductCard from "@/components/ProductCard";
 
 const STORE_WHATSAPP = "8801XXXXXXXXX"; // TODO: replace with real WhatsApp business number
@@ -16,6 +17,7 @@ export default function ProductDetailPage() {
   const { slug } = useParams();
   const router = useRouter();
   const { addToCart } = useCart();
+  const { start } = useLoadingBar();
   const { user } = useAuth();
 
   const [product, setProduct] = useState(null);
@@ -50,6 +52,7 @@ export default function ProductDetailPage() {
 
   const handleBuyNow = () => {
     addToCart(product, quantity, selectedVariant);
+    start();
     router.push("/checkout");
   };
 
