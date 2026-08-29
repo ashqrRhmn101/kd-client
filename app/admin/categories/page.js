@@ -13,7 +13,7 @@ export default function AdminCategoriesPage() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [editingId, setEditingId] = useState(null);
 
-  const load = () => api.get("/admin/categories").then(({ data }) => setCategories(data.categories));
+  const load = () => api.get("/admin/categories").then(({ data }) => setCategories(data.categories)).catch(() => {});
   useEffect(() => {
     load();
   }, []);

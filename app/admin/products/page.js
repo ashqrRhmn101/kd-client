@@ -25,8 +25,8 @@ export default function AdminProductsPage() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [showForm, setShowForm] = useState(false);
 
-  const loadProducts = () => api.get("/products", { params: { limit: 100 } }).then(({ data }) => setProducts(data.products));
-  const loadCategories = () => api.get("/categories").then(({ data }) => setCategories(data.categories));
+  const loadProducts = () => api.get("/products", { params: { limit: 100 } }).then(({ data }) => setProducts(data.products)).catch(() => {});
+  const loadCategories = () => api.get("/categories").then(({ data }) => setCategories(data.categories)).catch(() => {});
 
   useEffect(() => {
     loadProducts();

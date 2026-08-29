@@ -32,8 +32,8 @@ export default function AdminProductDetailPage() {
         isComboOffer: p.isComboOffer,
         isActive: p.isActive,
       });
-    });
-    api.get("/categories").then(({ data }) => setCategories(data.categories));
+    }).catch(() => {});
+    api.get("/categories").then(({ data }) => setCategories(data.categories)).catch(() => {});
   }, [id]);
 
   const handleSubmit = async (e) => {

@@ -15,7 +15,7 @@ export default function AdminOrderDetailPage() {
   const load = () => api.get(`/admin/orders/${id}`).then(({ data }) => {
     setOrder(data.order);
     setStatusForm((f) => ({ ...f, status: data.order.status, trackingId: data.order.trackingId || "", courier: data.order.courier || "" }));
-  });
+  }).catch(() => {});
 
   useEffect(() => {
     load();

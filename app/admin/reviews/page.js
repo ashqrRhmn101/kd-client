@@ -6,7 +6,7 @@ import api from "@/lib/api";
 export default function AdminReviewsPage() {
   const [reviews, setReviews] = useState([]);
 
-  const load = () => api.get("/admin/reviews/pending").then(({ data }) => setReviews(data.reviews));
+  const load = () => api.get("/admin/reviews/pending").then(({ data }) => setReviews(data.reviews)).catch(() => {});
   useEffect(() => {
     load();
   }, []);

@@ -10,7 +10,7 @@ export default function AdminOrdersPage() {
   const [status, setStatus] = useState("");
 
   useEffect(() => {
-    api.get("/admin/orders", { params: { status: status || undefined, limit: 100 } }).then(({ data }) => setOrders(data.orders));
+    api.get("/admin/orders", { params: { status: status || undefined, limit: 100 } }).then(({ data }) => setOrders(data.orders)).catch(() => {});
   }, [status]);
 
   return (

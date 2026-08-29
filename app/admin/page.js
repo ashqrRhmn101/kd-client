@@ -17,6 +17,7 @@ export default function AdminDashboard() {
         setStats(data.stats);
         setRecentOrders(data.recentOrders);
       })
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
@@ -55,7 +56,8 @@ export default function AdminDashboard() {
         {loading ? (
           <div className="py-8 text-center"><ClipLoader color="#16a34a" /></div>
         ) : (
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm min-w-[420px]">
             <thead>
               <tr className="text-left text-gray-400 border-b">
                 <th className="py-2">অর্ডার নং</th>
@@ -78,6 +80,7 @@ export default function AdminDashboard() {
               )}
             </tbody>
           </table>
+          </div>
         )}
       </div>
     </div>
