@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { Tag, Pencil, Trash2, RotateCcw } from "lucide-react";
 import api from "@/lib/api";
 import { alertSuccess, alertError, confirmDialog } from "@/lib/alert";
 import ImageUploader from "@/components/ImageUploader";
+import SafeImage from "@/components/SafeImage";
 
 const EMPTY_FORM = { name: "", image: "", isActive: true };
 
@@ -98,7 +98,7 @@ export default function AdminCategoriesPage() {
           <div key={cat._id} className={`card p-3 ${!cat.isActive ? "opacity-50" : ""}`}>
             <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-50 mb-2">
               {cat.image ? (
-                <Image src={cat.image} alt={cat.name} fill className="object-cover" />
+                <SafeImage src={cat.image} alt={cat.name} fill className="object-cover" sizes="150px" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-gray-300">
                   <Tag className="w-8 h-8" />

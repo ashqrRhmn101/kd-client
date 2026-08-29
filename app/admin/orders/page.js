@@ -25,7 +25,7 @@ export default function AdminOrdersPage() {
       </div>
 
       <div className="card overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full text-sm min-w-[640px]">
           <thead>
             <tr className="text-left text-gray-400 border-b">
               <th className="p-3">অর্ডার নং</th>

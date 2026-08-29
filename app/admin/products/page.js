@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Plus, Package } from "lucide-react";
 import { alertSuccess, alertError } from "@/lib/alert";
 import api from "@/lib/api";
 import ImageUploader from "@/components/ImageUploader";
+import SafeImage from "@/components/SafeImage";
 
 const EMPTY_FORM = {
   name: "",
@@ -104,7 +104,7 @@ export default function AdminProductsPage() {
       )}
 
       <div className="card overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full text-sm min-w-[520px]">
           <thead>
             <tr className="text-left text-gray-400 border-b">
               <th className="p-3">প্রোডাক্ট</th>
@@ -119,7 +119,7 @@ export default function AdminProductsPage() {
                 <td className="p-3">
                   <Link href={`/admin/products/${p._id}`} className="flex items-center gap-3 group">
                     <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
-                      {p.images?.[0] && <Image src={p.images[0]} alt={p.name} fill className="object-cover" />}
+                      {p.images?.[0] && <SafeImage src={p.images[0]} alt={p.name} fill className="object-cover" sizes="40px" />}
                     </div>
                     <span className="group-hover:text-primary-600 group-hover:underline">{p.name}</span>
                   </Link>

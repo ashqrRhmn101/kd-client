@@ -62,9 +62,9 @@ export default function AdminOrderDetailPage() {
         </div>
       </div>
 
-      <div className="card p-4 mt-6">
+      <div className="card p-4 mt-6 overflow-x-auto">
         <h2 className="font-semibold mb-2">প্রোডাক্ট সমূহ</h2>
-        <table className="w-full text-sm">
+        <table className="w-full text-sm min-w-[420px]">
           <tbody>
             {order.items.map((item, i) => (
               <tr key={i} className="border-b last:border-0">
