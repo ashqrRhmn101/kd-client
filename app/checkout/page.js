@@ -6,11 +6,13 @@ import { alertSuccess, alertError } from "@/lib/alert";
 import api from "@/lib/api";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+import { useLoadingBar } from "@/context/LoadingBarContext";
 
 export default function CheckoutPage() {
   const { items, total, clearCart } = useCart();
   const { user } = useAuth();
   const router = useRouter();
+  const { start } = useLoadingBar();
 
   const [form, setForm] = useState({
     name: "",
@@ -45,6 +47,7 @@ export default function CheckoutPage() {
       });
       clearCart();
       alertSuccess("অর্ডার সফল হয়েছে!");
+      start();
       router.push(`/orders/track?orderNumber=${data.order.orderNumber}`);
     } catch (err) {
       alertError(err.response?.data?.message || "অর্ডার দিতে সমস্যা হয়েছে");
