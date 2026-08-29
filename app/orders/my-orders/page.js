@@ -22,7 +22,7 @@ export default function MyOrdersPage() {
 
   useEffect(() => {
     if (!user) return;
-    api.get("/orders/my-orders").then(({ data }) => setOrders(data.orders)).finally(() => setLoading(false));
+    api.get("/orders/my-orders").then(({ data }) => setOrders(data.orders)).catch(() => {}).finally(() => setLoading(false));
   }, [user]);
 
   if (authLoading) return <div className="container-page py-16 text-center"><ClipLoader color="#16a34a" /></div>;

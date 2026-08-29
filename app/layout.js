@@ -2,9 +2,7 @@ import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { LoadingBarProvider } from "@/context/LoadingBarContext";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import AdminBanner from "@/components/AdminBanner";
+import StorefrontChrome from "@/components/StorefrontChrome";
 
 export const metadata = {
   title: "Khalid's Dreams — অনলাইন শপিং",
@@ -18,10 +16,7 @@ export default function RootLayout({ children }) {
         <LoadingBarProvider>
           <AuthProvider>
             <CartProvider>
-              <Header />
-              <AdminBanner />
-              <main className="min-h-screen">{children}</main>
-              <Footer />
+              <StorefrontChrome>{children}</StorefrontChrome>
             </CartProvider>
           </AuthProvider>
         </LoadingBarProvider>

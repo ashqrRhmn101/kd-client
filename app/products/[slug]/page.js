@@ -71,11 +71,11 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="container-page py-6">
-      <div className="grid md:grid-cols-2 gap-8">
+    <div className="container-page py-6 overflow-x-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         {/* Images */}
-        <div>
-          <div className="relative aspect-square bg-gray-50 rounded-xl overflow-hidden">
+        <div className="min-w-0">
+          <div className="relative w-full aspect-square bg-gray-50 rounded-xl overflow-hidden">
             <SafeImage
               src={product.images[activeImage]}
               alt={product.name}
@@ -84,12 +84,12 @@ export default function ProductDetailPage() {
               sizes="(max-width: 768px) 100vw, 500px"
             />
           </div>
-          <div className="flex gap-2 mt-3">
+          <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
             {product.images.map((img, i) => (
               <button
                 key={i}
                 onClick={() => setActiveImage(i)}
-                className={`relative w-16 h-16 rounded-lg overflow-hidden border-2 ${
+                className={`relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden border-2 ${
                   i === activeImage ? "border-primary-500" : "border-transparent"
                 }`}
               >
@@ -100,7 +100,7 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Info */}
-        <div>
+        <div className="min-w-0">
           <h1 className="text-xl font-bold">{product.name}</h1>
           <div className="flex items-center gap-3 mt-2">
             <span className="text-2xl font-bold text-primary-600">৳{finalPrice}</span>
