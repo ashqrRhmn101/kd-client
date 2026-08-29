@@ -9,7 +9,7 @@ export default function NotificationBell() {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
-  const load = () => api.get("/admin/orders/notifications").then(({ data }) => setOrders(data.orders));
+  const load = () => api.get("/admin/orders/notifications").then(({ data }) => setOrders(data.orders)).catch(() => {});
 
   useEffect(() => {
     load();
