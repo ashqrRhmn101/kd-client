@@ -23,46 +23,46 @@ export default function ProductCard({ product }) {
   return (
     <div className="card overflow-hidden group hover:shadow-md transition-shadow">
       <Link href={`/products/${product.slug}`}>
-        <div className="relative aspect-square bg-gray-50">
+        <div className="relative aspect-square bg-gray-50 p-2">
           {product.images?.[0] && (
             <SafeImage
               src={product.images[0]}
               alt={product.name}
               fill
-              className="object-cover group-hover:scale-105 transition-transform"
-              sizes="(max-width: 768px) 50vw, 200px"
+              className="object-contain group-hover:scale-105 transition-transform"
+              sizes="(max-width: 768px) 25vw, 200px"
             />
           )}
           {hasDiscount && (
-            <span className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+            <span className="absolute top-1.5 left-1.5 md:top-2 md:left-2 bg-red-500 text-white text-[10px] md:text-xs font-bold px-1.5 py-0.5 md:px-2 md:py-1 rounded">
               -{Math.round(((product.price - product.discountPrice) / product.price) * 100)}%
             </span>
           )}
           {product.stock === 0 && (
-            <span className="absolute inset-0 bg-black/50 flex items-center justify-center text-white font-bold">
+            <span className="absolute inset-0 bg-black/50 flex items-center justify-center text-white text-xs md:text-base font-bold">
               স্টক নেই
             </span>
           )}
         </div>
       </Link>
-      <div className="p-3">
+      <div className="p-2 md:p-3">
         <Link href={`/products/${product.slug}`}>
-          <h3 className="text-sm font-medium text-ink-900 line-clamp-2 min-h-[2.5rem] hover:text-primary-600">
+          <h3 className="text-xs md:text-sm font-medium text-ink-900 line-clamp-2 min-h-[2rem] md:min-h-[2.5rem] hover:text-primary-600">
             {product.name}
           </h3>
         </Link>
-        <div className="flex items-center gap-2 mt-1">
-          <span className="text-primary-600 font-bold">৳{finalPrice}</span>
-          {hasDiscount && <span className="text-gray-400 text-xs line-through">৳{product.price}</span>}
+        <div className="flex items-center gap-1.5 md:gap-2 mt-1 flex-wrap">
+          <span className="text-primary-600 font-bold text-sm md:text-base">৳{finalPrice}</span>
+          {hasDiscount && <span className="text-gray-400 text-[10px] md:text-xs line-through">৳{product.price}</span>}
         </div>
         {product.ratingCount > 0 && (
-          <div className="text-xs text-yellow-500 mt-1">
+          <div className="text-[10px] md:text-xs text-yellow-500 mt-0.5">
             {"★".repeat(Math.round(product.ratingAvg))}
             {"☆".repeat(5 - Math.round(product.ratingAvg))}
             <span className="text-gray-400 ml-1">({product.ratingCount})</span>
           </div>
         )}
-        <div className="grid grid-cols-2 gap-1.5 mt-2.5">
+        <div className="grid grid-cols-2 gap-1.5 mt-2">
           <button
             disabled={product.stock === 0}
             onClick={() => {
@@ -70,19 +70,21 @@ export default function ProductCard({ product }) {
               alertSuccess("কার্টে যোগ হয়েছে");
             }}
             title="কার্টে যোগ করুন"
-            className="flex items-center justify-center gap-1 text-[11px] sm:text-xs font-semibold btn-outline !px-1.5 !py-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+            aria-label="কার্টে যোগ করুন"
+            className="flex items-center justify-center btn-outline !px-1 !py-1.5 md:!px-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            <ShoppingCart className="w-3.5 h-3.5 flex-shrink-0" />
-            <span className="truncate">কার্টে যোগ</span>
+            <ShoppingCart className="w-3.5 h-3.5 md:w-4 md:h-4 flex-shrink-0" />
+            <span className="hidden md:inline text-xs font-semibold ml-1 truncate">কার্টে</span>
           </button>
           <button
             disabled={product.stock === 0}
             onClick={handleBuyNow}
             title="এখনই কিনুন"
-            className="flex items-center justify-center gap-1 text-[11px] sm:text-xs font-semibold btn-primary !px-1.5 !py-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+            aria-label="এখনই কিনুন"
+            className="flex items-center justify-center btn-primary !px-1 !py-1.5 md:!px-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            <Zap className="w-3.5 h-3.5 flex-shrink-0" />
-            <span className="truncate">এখনই কিনুন</span>
+            <Zap className="w-3.5 h-3.5 md:w-4 md:h-4 flex-shrink-0" />
+            <span className="hidden md:inline text-xs font-semibold ml-1 truncate">কিনুন</span>
           </button>
         </div>
       </div>

@@ -17,12 +17,12 @@ export default function BannerCarousel({ banners = [] }) {
         pagination={{ clickable: true }}
         navigation={banners.length > 1}
         loop={banners.length > 1}
-        className="aspect-[16/6] md:aspect-[16/4]"
+        className="aspect-[4/3] sm:aspect-[16/6] md:aspect-[16/4]"
       >
         {banners.map((banner, i) => (
           <SwiperSlide key={i}>
             <div className="relative w-full h-full">
-              <Image src={banner.image} alt={banner.alt || "banner"} fill className="object-cover" priority={i === 0} />
+              <Image src={banner.image} alt={banner.alt || "banner"} fill className="object-cover" priority={i === 0} sizes="100vw" />
             </div>
           </SwiperSlide>
         ))}
