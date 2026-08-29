@@ -7,6 +7,7 @@ import { User, Mail, Phone, Lock } from "lucide-react";
 import api from "@/lib/api";
 import { alertSuccess, alertError } from "@/lib/alert";
 import { useAuth } from "@/context/AuthContext";
+import { useLoadingBar } from "@/context/LoadingBarContext";
 import GoogleSignInButton from "@/components/GoogleSignInButton";
 
 // NOTE: Email OTP verification is temporarily paused (Gmail App Password
@@ -19,6 +20,7 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { setUser } = useAuth();
+  const { start } = useLoadingBar();
 
   const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
@@ -29,6 +31,7 @@ export default function SignupPage() {
       const { data } = await api.post("/auth/register", form);
       setUser(data.user);
       alertSuccess("একাউন্ট তৈরি হয়েছে!");
+      start();
       router.push("/");
     } catch (err) {
       alertError(err.response?.data?.message || "একাউন্ট তৈরি করতে সমস্যা হয়েছে");
