@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import api from "@/lib/api";
 import { alertSuccess, alertError } from "@/lib/alert";
 import { useAuth } from "@/context/AuthContext";
+import { useLoadingBar } from "@/context/LoadingBarContext";
 
 // Loads Google's Identity Services script once and renders the official
 // "Sign in with Google" button. Requires NEXT_PUBLIC_GOOGLE_CLIENT_ID in .env.local
@@ -12,6 +13,7 @@ export default function GoogleSignInButton() {
   const buttonRef = useRef(null);
   const router = useRouter();
   const { setUser } = useAuth();
+  const { start } = useLoadingBar();
 
   useEffect(() => {
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
@@ -22,6 +24,7 @@ export default function GoogleSignInButton() {
         const { data } = await api.post("/auth/google", { credential: response.credential });
         setUser(data.user);
         alertSuccess("লগইন সফল হয়েছে");
+        start();
         router.push("/");
       } catch (err) {
         alertError(err.response?.data?.message || "Google লগইন ব্যর্থ হয়েছে");
