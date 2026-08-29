@@ -2,6 +2,7 @@ import Link from "next/link";
 import BannerCarousel from "@/components/BannerCarousel";
 import ProductCard from "@/components/ProductCard";
 import TestimonialsMarquee from "@/components/TestimonialsMarquee";
+import SafeImage from "@/components/SafeImage";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:5000/api";
 
@@ -59,16 +60,22 @@ export default async function HomePage() {
       {/* Categories */}
       <section>
         <h2 className="text-lg font-bold mb-4">ক্যাটাগরি সমূহ</h2>
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
+        <div className="grid grid-cols-4 md:grid-cols-6 gap-3 md:gap-4">
           {categories.length === 0 && <p className="text-gray-400 text-sm col-span-full">এখনো কোনো ক্যাটাগরি যুক্ত হয়নি — অ্যাডমিন প্যানেল থেকে যোগ করুন।</p>}
           {categories.map((cat) => (
             <Link
               key={cat._id}
               href={`/products?category=${cat._id}`}
-              className="card p-4 text-center hover:shadow-md transition-shadow"
+              className="card p-2.5 md:p-4 text-center hover:shadow-md transition-shadow"
             >
-              <div className="text-2xl mb-1">🛍️</div>
-              <div className="text-sm font-medium">{cat.name}</div>
+              <div className="relative w-10 h-10 md:w-12 md:h-12 mx-auto mb-1.5 rounded-full overflow-hidden bg-primary-50">
+                {cat.image ? (
+                  <SafeImage src={cat.image} alt={cat.name} fill className="object-cover" sizes="48px" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-lg">🛍️</div>
+                )}
+              </div>
+              <div className="text-xs md:text-sm font-medium line-clamp-1">{cat.name}</div>
             </Link>
           ))}
         </div>
@@ -82,7 +89,7 @@ export default async function HomePage() {
             সব দেখুন →
           </Link>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+        <div className="grid grid-cols-4 md:grid-cols-6 gap-3 md:gap-4">
           {topSelling.map((p) => (
             <ProductCard key={p._id} product={p} />
           ))}
@@ -97,7 +104,7 @@ export default async function HomePage() {
             সব দেখুন →
           </Link>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+        <div className="grid grid-cols-4 md:grid-cols-6 gap-3 md:gap-4">
           {allProducts.map((p) => (
             <ProductCard key={p._id} product={p} />
           ))}
@@ -111,7 +118,7 @@ export default async function HomePage() {
       {/* Combo offers */}
       <section>
         <h2 className="text-lg font-bold mb-4">🎁 কম্বো অফার প্যাক</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+        <div className="grid grid-cols-4 md:grid-cols-6 gap-3 md:gap-4">
           {combos.length === 0 && <p className="text-gray-400 text-sm col-span-full">এখনো কোনো কম্বো অফার নেই।</p>}
           {combos.map((p) => (
             <ProductCard key={p._id} product={p} />

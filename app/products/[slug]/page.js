@@ -222,7 +222,7 @@ export default function ProductDetailPage() {
       {related.length > 0 && (
         <section className="mt-10">
           <h2 className="text-lg font-bold mb-4">সম্পর্কিত প্রোডাক্ট</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-4 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
             {related.map((p) => (
               <ProductCard key={p._id} product={p} />
             ))}
