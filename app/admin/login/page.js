@@ -6,12 +6,14 @@ import { Lock, Mail, ShieldCheck } from "lucide-react";
 import { alertSuccess, alertError } from "@/lib/alert";
 import api from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
+import { useLoadingBar } from "@/context/LoadingBarContext";
 
 export default function AdminLoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { setUser } = useAuth();
+  const { start } = useLoadingBar();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +26,7 @@ export default function AdminLoginPage() {
       }
       setUser(data.user);
       alertSuccess("স্বাগতম, অ্যাডমিন!");
+      start();
       router.push("/admin");
     } catch (err) {
       alertError(err.response?.data?.message || "লগইন ব্যর্থ হয়েছে");

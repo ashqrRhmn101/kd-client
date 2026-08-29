@@ -6,11 +6,13 @@ import { ClipLoader } from "react-spinners";
 import { ArrowLeft, Trash2, Save } from "lucide-react";
 import api from "@/lib/api";
 import { alertSuccess, alertError, confirmDialog } from "@/lib/alert";
+import { useLoadingBar } from "@/context/LoadingBarContext";
 import ImageUploader from "@/components/ImageUploader";
 
 export default function AdminProductDetailPage() {
   const { id } = useParams();
   const router = useRouter();
+  const { start } = useLoadingBar();
   const [form, setForm] = useState(null);
   const [categories, setCategories] = useState([]);
   const [saving, setSaving] = useState(false);
@@ -57,6 +59,7 @@ export default function AdminProductDetailPage() {
     if (!ok) return;
     await api.delete(`/admin/products/${id}`);
     alertSuccess("প্রোডাক্ট মুছে ফেলা হয়েছে");
+    start();
     router.push("/admin/products");
   };
 
