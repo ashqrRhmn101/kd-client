@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Search, X } from "lucide-react";
 import { ClipLoader } from "react-spinners";
 import api from "@/lib/api";
+import { useLoadingBar } from "@/context/LoadingBarContext";
 
 // Debounced live search: fires a fresh request a beat after each keystroke,
 // so results update as the user types instead of only on submit.
@@ -16,6 +17,7 @@ export default function SearchAutocomplete({ compact = false }) {
   const debounceRef = useRef(null);
   const wrapperRef = useRef(null);
   const router = useRouter();
+  const { start } = useLoadingBar();
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -55,12 +57,14 @@ export default function SearchAutocomplete({ compact = false }) {
     e.preventDefault();
     if (!query.trim()) return;
     setOpen(false);
+    start();
     router.push(`/products?search=${encodeURIComponent(query)}`);
   };
 
   const goToProduct = (slug) => {
     setOpen(false);
     setQuery("");
+    start();
     router.push(`/products/${slug}`);
   };
 
