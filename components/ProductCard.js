@@ -5,15 +5,18 @@ import { useRouter } from "next/navigation";
 import { ShoppingCart, Zap } from "lucide-react";
 import { alertSuccess } from "@/lib/alert";
 import { useCart } from "@/context/CartContext";
+import { useLoadingBar } from "@/context/LoadingBarContext";
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
   const router = useRouter();
+  const { start } = useLoadingBar();
   const finalPrice = product.discountPrice && product.discountPrice < product.price ? product.discountPrice : product.price;
   const hasDiscount = product.discountPrice && product.discountPrice < product.price;
 
   const handleBuyNow = () => {
     addToCart(product, 1);
+    start();
     router.push("/checkout");
   };
 
