@@ -8,10 +8,16 @@ const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 async function getData() {
   try {
     const [categoriesRes, topSellingRes, comboRes, allProductsRes] = await Promise.all([
-      fetch(`${API}/categories`, { cache: "no-store" }),
-      fetch(`${API}/products?topSelling=true&limit=6`, { cache: "no-store" }),
-      fetch(`${API}/products?combo=true&limit=6`, { cache: "no-store" }),
-      fetch(`${API}/products?limit=12`, { cache: "no-store" }),
+      // `next: { revalidate: 30 }` caches this on the server for 30 seconds —
+      // repeat visits to the homepage are served instantly from cache instead
+      // of waiting on the backend every single time (this was a big chunk of
+      // the "several seconds before anything shows" delay). New products
+      // still appear within 30s of being added — a good trade-off for a
+      // homepage that doesn't need to be second-by-second live.
+      fetch(`${API}/categories`, { next: { revalidate: 30 } }),
+      fetch(`${API}/products?topSelling=true&limit=6`, { next: { revalidate: 30 } }),
+      fetch(`${API}/products?combo=true&limit=6`, { next: { revalidate: 30 } }),
+      fetch(`${API}/products?limit=12`, { next: { revalidate: 30 } }),
     ]);
     const [categories, topSelling, combos, allProducts] = await Promise.all([
       categoriesRes.json(),

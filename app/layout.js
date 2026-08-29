@@ -1,6 +1,7 @@
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { LoadingBarProvider } from "@/context/LoadingBarContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AdminBanner from "@/components/AdminBanner";
@@ -14,14 +15,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="bn">
       <body>
-        <AuthProvider>
-          <CartProvider>
-            <Header />
-            <AdminBanner />
-            <main className="min-h-screen">{children}</main>
-            <Footer />
-          </CartProvider>
-        </AuthProvider>
+        <LoadingBarProvider>
+          <AuthProvider>
+            <CartProvider>
+              <Header />
+              <AdminBanner />
+              <main className="min-h-screen">{children}</main>
+              <Footer />
+            </CartProvider>
+          </AuthProvider>
+        </LoadingBarProvider>
       </body>
     </html>
   );
