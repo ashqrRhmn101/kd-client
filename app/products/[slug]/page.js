@@ -10,15 +10,15 @@ import { useLoadingBar } from "@/context/LoadingBarContext";
 import ProductCard from "@/components/ProductCard";
 import SafeImage from "@/components/SafeImage";
 
-const STORE_WHATSAPP = "8801710979757"; // TODO: replace with real WhatsApp business number
-const STORE_PHONE = "+8801710979757"; // TODO: replace with real phone number
+const STORE_WHATSAPP = "8801XXXXXXXXX"; // TODO: replace with real WhatsApp business number
+const STORE_PHONE = "+8801XXXXXXXXX"; // TODO: replace with real phone number
 
 export default function ProductDetailPage() {
   const { slug } = useParams();
   const router = useRouter();
   const { addToCart } = useCart();
-  const { start } = useLoadingBar();
   const { user } = useAuth();
+  const { start } = useLoadingBar();
 
   const [product, setProduct] = useState(null);
   const [related, setRelated] = useState([]);
@@ -34,8 +34,7 @@ export default function ProductDetailPage() {
       setRelated(data.related);
     });
     // NOTE: reviews are fetched separately below using product._id once the
-    // product loads (the reviews API needs the real Mongo ID, not the slug —
-    // calling it with the slug here was a bug that caused a 404 every time).
+    // product loads (the reviews API needs the real Mongo ID, not the slug).
   };
 
   useEffect(() => {
@@ -44,7 +43,7 @@ export default function ProductDetailPage() {
 
   useEffect(() => {
     if (product) {
-      api.get(`/products/${product._id}/reviews`).then(({ data }) => setReviews(data.reviews));
+      api.get(`/products/${product._id}/reviews`).then(({ data }) => setReviews(data.reviews)).catch(() => {});
     }
   }, [product]);
 
@@ -80,7 +79,7 @@ export default function ProductDetailPage() {
               src={product.images[activeImage]}
               alt={product.name}
               fill
-              className="object-cover"
+              className="object-contain"
               sizes="(max-width: 768px) 100vw, 500px"
             />
           </div>
@@ -222,7 +221,7 @@ export default function ProductDetailPage() {
       {related.length > 0 && (
         <section className="mt-10">
           <h2 className="text-lg font-bold mb-4">সম্পর্কিত প্রোডাক্ট</h2>
-          <div className="grid grid-cols-4 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
+          <div className="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-4">
             {related.map((p) => (
               <ProductCard key={p._id} product={p} />
             ))}

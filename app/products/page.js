@@ -27,6 +27,7 @@ export default function ProductsPage() {
         setProducts(data.products);
         setPagination(data.pagination);
       })
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, [searchParams, page]);
 
@@ -42,14 +43,14 @@ export default function ProductsPage() {
         <p className="text-gray-400">কোনো প্রোডাক্ট পাওয়া যায়নি।</p>
       ) : (
         <>
-          <div className="grid grid-cols-4 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
+          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
             {products.map((p) => (
               <ProductCard key={p._id} product={p} />
             ))}
           </div>
 
           {pagination.pages > 1 && (
-            <div className="flex justify-center gap-2 mt-8">
+            <div className="flex justify-center gap-2 mt-8 flex-wrap">
               {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((p) => (
                 <button
                   key={p}
