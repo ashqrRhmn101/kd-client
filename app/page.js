@@ -4,7 +4,7 @@ import ProductCard from "@/components/ProductCard";
 import TestimonialsMarquee from "@/components/TestimonialsMarquee";
 import SafeImage from "@/components/SafeImage";
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:5000/api";
+const API = process.env.NEXT_PUBLIC_API_URL || "https://kd-server-s10q.onrender.com/api";
 
 async function getData() {
   try {
@@ -35,8 +35,8 @@ async function getData() {
 
 // Placeholder banners — replace image URLs with your own uploaded via admin panel later
 const banners = [
-  { image: "https://images.unsplash.com/photo-1607082349566-187342175e2f?w=1200", alt: "Summer Sale" },
-  { image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200", alt: "New Arrivals" },
+  { image: "https://i.ibb.co.com/zTPxxKL0/kd-Coverphoto.png", alt: "Summer Sale" },
+  { image: "https://i.ibb.co.com/KpbTny3s/kd-Facebook-Cover.png", alt: "New Arrivals" },
 ];
 
 export default async function HomePage() {
@@ -101,7 +101,7 @@ export default async function HomePage() {
       </section>
 
       <BannerCarousel
-        banners={[{ image: "https://images.unsplash.com/photo-1607082349566-187342175e2f?w=1200", alt: "Combo Offer" }]}
+        banners={[{ image: "https://i.ibb.co.com/ZpVQLqbY/job1-0.png", alt: "Combo Offer" }]}
       />
 
       {/* Combo offers */}
