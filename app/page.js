@@ -4,7 +4,7 @@ import ProductCard from "@/components/ProductCard";
 import TestimonialsMarquee from "@/components/TestimonialsMarquee";
 import SafeImage from "@/components/SafeImage";
 
-const API = process.env.NEXT_PUBLIC_API_URL || "https://kd-server.vercel.app/api";
+const API = process.env.NEXT_PUBLIC_API_URL || "https://kd-server-s10q.onrender.com/";
 
 async function getData() {
   try {

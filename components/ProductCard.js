@@ -30,7 +30,7 @@ export default function ProductCard({ product }) {
               alt={product.name}
               fill
               className="object-contain group-hover:scale-105 transition-transform"
-              sizes="(max-width: 768px) 25vw, 200px"
+              sizes="(max-width: 768px) 33vw, 200px"
             />
           )}
           {hasDiscount && (
@@ -71,20 +71,20 @@ export default function ProductCard({ product }) {
             }}
             title="কার্টে যোগ করুন"
             aria-label="কার্টে যোগ করুন"
-            className="flex items-center justify-center btn-outline !px-1 !py-1.5 md:!px-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="flex items-center justify-center gap-1 btn-outline !px-1 !py-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            <ShoppingCart className="w-3.5 h-3.5 md:w-4 md:h-4 flex-shrink-0" />
-            <span className="hidden md:inline text-xs font-semibold ml-1 truncate">কার্টে</span>
+            <ShoppingCart className="w-3.5 h-3.5 flex-shrink-0" />
+            <span className="text-[10px] md:text-xs font-semibold truncate">কার্টে</span>
           </button>
           <button
             disabled={product.stock === 0}
             onClick={handleBuyNow}
             title="এখনই কিনুন"
             aria-label="এখনই কিনুন"
-            className="flex items-center justify-center btn-primary !px-1 !py-1.5 md:!px-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="flex items-center justify-center gap-1 btn-primary !px-1 !py-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            <Zap className="w-3.5 h-3.5 md:w-4 md:h-4 flex-shrink-0" />
-            <span className="hidden md:inline text-xs font-semibold ml-1 truncate">কিনুন</span>
+            <Zap className="w-3.5 h-3.5 flex-shrink-0" />
+            <span className="text-[10px] md:text-xs font-semibold truncate">কিনুন</span>
           </button>
         </div>
       </div>

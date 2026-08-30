@@ -1,14 +1,16 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import SafeImage from "@/components/SafeImage";
 import { Search, X } from "lucide-react";
 import { ClipLoader } from "react-spinners";
 import api from "@/lib/api";
 import { useLoadingBar } from "@/context/LoadingBarContext";
+import SafeImage from "@/components/SafeImage";
 
 // Debounced live search: fires a fresh request a beat after each keystroke,
-// so results update as the user types instead of only on submit.
+// so results narrow down as the user types — this only works correctly
+// because the backend now matches partial/prefix text (regex), not whole
+// words ($text), otherwise typing "h" would return nothing.
 export default function SearchAutocomplete({ compact = false }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
@@ -40,17 +42,18 @@ export default function SearchAutocomplete({ compact = false }) {
 
     setLoading(true);
     setOpen(true);
-    // Wait 300ms after the last keystroke before hitting the API — this is
-    // what makes each new character refine the results instead of firing
-    // a request per keystroke.
+    // 200ms after the last keystroke — snappy enough to feel "live" while
+    // still avoiding a request on every single keypress.
     debounceRef.current = setTimeout(async () => {
       try {
         const { data } = await api.get("/products", { params: { search: value, limit: 6 } });
         setResults(data.products);
+      } catch {
+        setResults([]);
       } finally {
         setLoading(false);
       }
-    }, 300);
+    }, 200);
   };
 
   const handleSubmit = (e) => {

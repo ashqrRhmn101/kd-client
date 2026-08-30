@@ -10,8 +10,8 @@ import { useLoadingBar } from "@/context/LoadingBarContext";
 import ProductCard from "@/components/ProductCard";
 import SafeImage from "@/components/SafeImage";
 
-const STORE_WHATSAPP = "8801XXXXXXXXX"; // TODO: replace with real WhatsApp business number
-const STORE_PHONE = "+8801XXXXXXXXX"; // TODO: replace with real phone number
+const STORE_WHATSAPP = "8801710979757"; // TODO: replace with real WhatsApp business number
+const STORE_PHONE = "+8801710979757"; // TODO: replace with real phone number
 
 export default function ProductDetailPage() {
   const { slug } = useParams();
